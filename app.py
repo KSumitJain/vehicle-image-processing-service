@@ -51,13 +51,12 @@ def detect_from_video(file_path, camera_id, timestamp, weights, is_lpr):
 @app.route("/upload-video-lpr", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def match_details():
-    if 'cameraId' not in request.args:
-        return 'No Camera ID Mentioned'
     if 'sourcePath' not in request.args:
         return 'No Source Path Mentioned'
+    camera_id = 1#request.args.get('cameraId', default=1)
     timestamp = datetime.datetime.now(timezone('Asia/Kolkata'))
     #return 'No Time Stamp Mentioned'
-    thread = threading.Thread(target=detect_from_video, args=(request.args['sourcePath'], request.args['cameraId'], timestamp, app.config['LPR_WEIGHT_FILE'], True))
+    thread = threading.Thread(target=detect_from_video, args=(request.args['sourcePath'], camera_id, timestamp, app.config['LPR_WEIGHT_FILE'], True))
     thread.start()
     response = jsonify({"status": 'File Uploaded Successfully'})
     response.status_code = 200
