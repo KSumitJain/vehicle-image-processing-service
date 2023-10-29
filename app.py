@@ -33,8 +33,10 @@ if not os.path.exists(app.config['FRAME_LOCATION']):
 
 def detect_from_video(file_path, camera_id, timestamp, weights, is_lpr):
     file_path_no_extension = file_path[:-4]
-    file_path_array = file_path_no_extension.split('/')
+    file_path_array = file_path_no_extension.split('\\')
     file_name = file_path_array[-1]
+    file_path = '/'.join(file_path_array)
+    print(file_path)
     if not os.path.exists(app.config['FRAME_LOCATION']+'/Camera_'+str(camera_id)+'/'+file_name+'/'):
         os.makedirs(app.config['FRAME_LOCATION']+'/Camera_'+str(camera_id)+'/'+file_name+'/')
     parser = make_parser(weights, file_path, is_lpr, file_name, camera_id, timestamp, len(os.listdir(app.config['FRAME_LOCATION']+'/Camera_'+str(camera_id))), app.config['FRAME_LOCATION'])
